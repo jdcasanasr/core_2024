@@ -1,40 +1,49 @@
-#Codigo Burbuja
-#Ordenamiento de n�meros
-
-#Carga de datos
-
-.data
-_data: 
-.word 0000
-.word 0000
-.word 0000
-.word 0000
-.word 0000
-.word 0000
-.word 0000
-.word 0000
+# Bubble Sort Implementation in RISC-V Assembly.
+# Daniel Casañas, Irving Vallarta.
 
 .text
-#li	s9, 0x10000000
-addi t0, zero, 30
-addi t1, zero, 15
-addi t2, zero, 20
-addi t3, zero, 7
-addi t4, zero, 31
-addi t5, zero, 3
-addi t6, zero, 10
-#Almacenar datos
-sw 	t0, 0(x0)
-sw 	t1, 8(x0)
-sw 	t2, 16(x0)
-sw 	t3, 24(x0)
-sw 	t4, 32(x0)
-sw 	t5, 40(x0)
-sw 	t6, 48(x0)
-# C�digo C => ensamblador
-addi 	s0, x0, 0	# i = 0
-addi 	s1, x0, 6	# n = 6, l�mite
-for_i:
+# Load "Array"'s Base Address.
+lui     a0, 0x10011000
+
+# Load "n - 1" (Number of Iterations) and Indeces (i and j).
+addi    a1, zero, 4     # a1 = n.
+and     a2, zero, a2    # a2 = i.
+and     a3, zero, a3    # a3 = j.
+
+# Use Basic Instructions to Load Immediate Values.
+# We'll Use "t0" as a Temporary Register for Value Swapping.
+addi    t1, zero, 30
+addi    t2, zero, 15
+addi    t3, zero, 20
+addi    t4, zero, 7
+addi    t5, zero, 3
+
+# Store Array in Memory.
+# After This Operation, Registers t1-t6 are Free to Use.
+sw      t1, 0(a0)
+sw      t2, 4(a0)
+sw      t3, 8(a0)
+sw      t4, 12(a0)
+sw      t5, 16(a0)
+
+# Bubble Sort.
+outer_loop:
+    # Test Outer Loop's Condition.
+    addi    a2, a2, 1
+    bge     a1, a2, end 
+
+inner_loop:
+    # Test Inner Loop's Condition.
+    addi    a3, a3, 1
+    bge     a2, a3, outer_loop
+
+    #
+
+
+
+end:
+# Load Array in Memory.
+
 addi 	s2, x0, 0 	# j = 0
 for_j:
 slli 	t0, s2, 3 	# offset j
